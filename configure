@@ -277,7 +277,7 @@ tryexec HELP2MAN help2man
 setexec MAKE make gmake pmake bmake
 
 cat << EOF > dummy.c
-int main(){return 0;}
+int main(void){return 0;}
 EOF
 $CC $CFLAGS $CPPFLAGS -o dummy dummy.c || {
   echo $CC: not able to produce executables
@@ -287,9 +287,9 @@ WINDOWS=
 EXE=
 cat << EOF > dummy.c
 #if defined(_WIN32)
-int main(){return 0;}
+int main(void){return 0;}
 #else
-int main(){return bad}
+int main(void){return bad}
 #endif
 EOF
 $CC $CFLAGS $CPPFLAGS -o dummy dummy.c >/dev/null 2>&1 && {
@@ -300,9 +300,9 @@ LFSF=
 cat << EOF > dummy.c
 #include <limits.h>
 #if LONG_MAX > 2147483647 || defined(_WIN64) || defined(_FILE_OFFSET_BITS)
-int main(){return 0;}
+int main(void){return 0;}
 #else
-int main(){return bad}
+int main(void){return bad}
 #endif
 EOF
 $CC $CFLAGS $CPPFLAGS -o dummy dummy.c >/dev/null 2>&1 || {
@@ -312,9 +312,9 @@ $CC $CFLAGS $CPPFLAGS -o dummy dummy.c >/dev/null 2>&1 || {
 cat << EOF > dummy.c
 #include <limits.h>
 #if LONG_MAX > 2147483647 || defined(_WIN64) || defined(_LARGEFILE_SOURCE)
-int main(){return 0;}
+int main(void){return 0;}
 #else
-int main(){return bad}
+int main(void){return bad}
 #endif
 EOF
 $CC $CFLAGS $CPPFLAGS -o dummy dummy.c >/dev/null 2>&1 || {
@@ -325,7 +325,7 @@ HAS_FSEEKO=1
 cat << EOF > dummy.c
 #include <stdio.h>
 FILE *f;
-int main(){ftello(f);return fseeko(f, 0, SEEK_SET);}
+int main(void){ftello(f);return fseeko(f, 0, SEEK_SET);}
 EOF
 $CC $CFLAGS $CPPFLAGS $LFSF -o dummy dummy.c >/dev/null 2>&1 || {
   HAS_FSEEKO=
@@ -334,9 +334,9 @@ $CC $CFLAGS $CPPFLAGS $LFSF -o dummy dummy.c >/dev/null 2>&1 || {
 MAC=
 cat << EOF > dummy.c
 #if defined(__APPLE__) && defined(__MACH__)
-int main(){return 0;}
+int main(void){return 0;}
 #else
-int main(){return bad}
+int main(void){return bad}
 #endif
 EOF
 $CC $CFLAGS -o dummy dummy.c >/dev/null 2>&1 && {
