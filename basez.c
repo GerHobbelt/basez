@@ -57,16 +57,16 @@ typedef enum opt_case {upper, lower, any} opt_case;
 typedef enum code {plain, hex, url, mime, pem} code;
 
 static const char* base_name(const char *command_path_name);
-static void version();
-static void help();
+static void version(void);
+static void help(void);
 static void encode_b64(const code variant);
 static void decode_b64(const code variant);
 static void encode_b32(const code variant);
 static void decode_b32(const code variant);
-static void encode_b16();
-static void decode_b16();
-static void invalid_input();
-static void internal_error();
+static void encode_b16(void);
+static void decode_b16(void);
+static void invalid_input(void);
+static void internal_error(void);
 static void set_wrap(const char *arg);
 static void sys_err(const char *msg);
 
@@ -81,7 +81,7 @@ static int wrap = -1;
 int
 main (
   const int argc,
-  const char *argv[])
+  const char **argv)
 {
   int i;
   const char *filename_in = NULL;
@@ -429,7 +429,7 @@ base_name (
 
 static
 void
-version ()
+version (void)
 {
   printf("%s (", command_name);
   puts(
@@ -458,7 +458,7 @@ APPNAME ") " VERSION "\n"
 
 static
 void
-help ()
+help (void)
 {
   puts(
 "\n"
@@ -672,7 +672,7 @@ static int bifrcount = 0;
 
 static
 void
-flushout()
+flushout(void)
 {
   if ((fwrite(&bof[0], 1, bofwcount, file_out)) != bofwcount)
     sys_err("");
@@ -691,7 +691,7 @@ writechar(const unsigned char in)
 
 static
 void
-readin()
+readin(void)
 {
   if ((bifincount = fread(&bif[0], 1, BUFF, file_in)) != BUFF)
     if (ferror(file_in))
@@ -701,7 +701,7 @@ readin()
 
 static
 int
-readchar()
+readchar(void)
 {
   if (bifincount == bifrcount)
   {
@@ -1099,7 +1099,7 @@ decode_b32(
 
 static
 void 
-encode_b16 ()
+encode_b16 (void)
 {
   int cin;
   unsigned char cout = '\0';
@@ -1149,7 +1149,7 @@ encode_b16 ()
 
 static
 void 
-decode_b16()
+decode_b16(void)
 {
   int cin;
   unsigned char buffin[2];
@@ -1209,7 +1209,7 @@ decode_b16()
 
 static
 void
-internal_error ()
+internal_error (void)
 {
   fprintf(stderr, "%s: internal error\n", command_name);
   exit(EXIT_FAILURE);
@@ -1217,7 +1217,7 @@ internal_error ()
 
 static
 void
-invalid_input ()
+invalid_input (void)
 {
   fprintf(stderr, "%s: invalid input\n", command_name);
   exit(EXIT_FAILURE);
